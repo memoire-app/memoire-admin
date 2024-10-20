@@ -5,15 +5,24 @@ definePageMeta({
 interface Meta {
   total: number;
 }
-export interface Data {
+export interface Deck {
   id: number;
   title: string;
   tags: string;
   updatedAt: string;
+  flashcards: Flashcard[];
 }
+
+export interface Flashcard {
+  id: number;
+  front: string;
+  back: string;
+  updatedAt: string;
+}
+
 interface Props {
   meta: Meta;
-  data: Data[];
+  data: Deck[];
 }
 const runtimeConfig = useRuntimeConfig();
 const { data: moderation } = await useFetch<Props>("moderation", {
@@ -39,6 +48,31 @@ const navigate = async (page: number) => {
 watch(page, (newPage) => {
   navigate(newPage);
 });
+
+const flashcards = computed(() => {
+  if (!moderation.value) return [];
+  return moderation.value.data
+    .map((deck) => {
+      return deck.flashcards;
+    })
+    .flat();
+});
+
+const formattedDecks = computed(() => {
+  if (!moderation.value) return [];
+  return moderation.value.data.map((deck) => ({
+    ...deck,
+    updatedAt: new Date(deck.updatedAt).toLocaleString(),
+  }));
+});
+
+const formattedFlashcards = computed(() => {
+  if (!moderation.value) return [];
+  return flashcards.value.map((flashcard) => ({
+    ...flashcard,
+    updatedAt: new Date(flashcard.updatedAt).toLocaleString(),
+  }));
+});
 </script>
 
 <template>
@@ -50,7 +84,10 @@ watch(page, (newPage) => {
         :page-count="50"
       />
 
-      <ModerationDeckTable :decks="moderation.data" />
+      <div class="flex flex-col gap-16">
+        <ModerationDeckTable :decks="formattedDecks" />
+        <ModerationFlashcardTable :flashcards="formattedFlashcards" />
+      </div>
     </div>
   </div>
 </template>

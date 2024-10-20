@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Deck } from "~/pages/(admin)/moderation.vue";
+import type { Deck, Flashcard } from "~/pages/(admin)/moderation.vue";
 
-const props = defineProps<{
-  decks: Deck[];
+defineProps<{
+  flashcards: Flashcard[];
 }>();
 
 const columns = [
@@ -11,12 +11,12 @@ const columns = [
     label: "ID",
   },
   {
-    key: "title",
-    label: "Title",
+    key: "front",
+    label: "Front",
   },
   {
-    key: "tags",
-    label: "Tags",
+    key: "back",
+    label: "Back",
   },
   {
     key: "updatedAt",
@@ -30,8 +30,8 @@ const columns = [
 </script>
 
 <template>
-  <div class="max-h-[600px] overflow-auto w-fit">
-    <UTable :columns="columns" :rows="props.decks">
+  <div class="w-fit max-h-[600px] overflow-auto">
+    <UTable :columns="columns" :rows="flashcards">
       <template #actions-data="{ row }">
         <div class="flex gap-2 items-center">
           <UButton square color="red" icon="i-lucide-trash" />

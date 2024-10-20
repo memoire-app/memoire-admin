@@ -12,7 +12,7 @@
         </NuxtLink>
       </div>
     </nav>
-    <div class="p-8 w-full">
+    <div class="p-8 w-full h-screen overflow-auto">
       <slot />
     </div>
   </div>
