@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Deck, Flashcard } from "~/pages/(admin)/moderation.vue";
+import type { Flashcard } from "~/pages/(admin)/moderation.vue";
 
 defineProps<{
   flashcards: Flashcard[];

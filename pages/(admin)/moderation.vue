@@ -42,7 +42,9 @@ const navigate = async (page: number) => {
       credentials: "include",
     });
     moderation.value = data;
-  } catch {}
+  } catch {
+    console.error("Failed to fetch moderation data");
+  }
 };
 
 watch(page, (newPage) => {

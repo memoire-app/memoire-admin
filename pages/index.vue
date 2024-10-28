@@ -46,6 +46,6 @@ const handleKeydown = (event: KeyboardEvent) => {
       @keydown="handleKeydown"
     />
 
-    <UButton @click="login" type="submit">Login</UButton>
+    <UButton type="submit" @click="login">Login</UButton>
   </UContainer>
 </template>
