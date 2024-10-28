@@ -27,6 +27,23 @@ const columns = [
     label: "Actions",
   },
 ];
+
+const runtimeConfig = useRuntimeConfig();
+const toast = useToast();
+
+const deleteRow = async (id: number) => {
+  try {
+    await $fetch(`/moderation/flashcards/${id}`, {
+      method: "DELETE",
+      baseURL: runtimeConfig.public.BACK_ADMIN_URL as string,
+      credentials: "include",
+    });
+
+    toast.add({ title: "Flashcard deleted" });
+  } catch {
+    toast.add({ title: "Failed to delete flashcard", color: "red" });
+  }
+};
 </script>
 
 <template>
@@ -34,8 +51,12 @@ const columns = [
     <UTable :columns="columns" :rows="flashcards">
       <template #actions-data="{ row }">
         <div class="flex gap-2 items-center">
-          <UButton square color="red" icon="i-lucide-trash" />
-          <UButton square icon="i-lucide-pencil" />
+          <UButton
+            square
+            color="red"
+            icon="i-lucide-trash"
+            @click="deleteRow(row.id)"
+          />
         </div>
       </template>
     </UTable>
